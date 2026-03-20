@@ -1,0 +1,32 @@
+# =============================================================
+# 1단계: CI 기본 - "코드를 push하면 자동으로 뭔가 돌아간다"
+# =============================================================
+# 체험 포인트:
+#   - push만 하면 GitHub이 알아서 코드를 실행해준다
+#   - Actions 탭에서 초록색 체크 / 빨간색 X 확인
+# =============================================================
+
+name: "Step 1 - Hello CI"
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  hello:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 👋 인사하기
+        run: echo "Hello, DevOps! GitHub Actions가 자동으로 실행되었습니다."
+
+      - name: 📅 현재 시간 출력
+        run: date
+
+      - name: 💻 실행 환경 확인
+        run: |
+          echo "OS: $(uname -s)"
+          echo "Python: $(python3 --version)"
+          echo "Runner: ${{ runner.os }}"

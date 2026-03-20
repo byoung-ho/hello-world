@@ -1,0 +1,55 @@
+# =============================================================
+# 2단계: CI 심화 - "코드 품질을 자동으로 검사한다"
+# =============================================================
+# 체험 포인트:
+#   - 린트(ruff): 코딩 스타일 자동 검사
+#   - 테스트(pytest): 기능이 정상 동작하는지 자동 확인
+#   - 하나라도 실패하면 빨간불 → 머지 차단 가능
+# =============================================================
+
+name: "Step 2 - Lint & Test"
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    name: 🔍 코드 스타일 검사 (Ruff)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 코드 가져오기
+        uses: actions/checkout@v4
+
+      - name: Python 설치
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: 의존성 설치
+        run: pip install -r requirements.txt
+
+      - name: Ruff 린트 실행
+        run: ruff check app/ tests/
+
+  test:
+    name: ✅ 테스트 실행 (Pytest)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 코드 가져오기
+        uses: actions/checkout@v4
+
+      - name: Python 설치
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: 의존성 설치
+        run: pip install -r requirements.txt
+
+      - name: Pytest 실행
+        run: pytest tests/ -v
